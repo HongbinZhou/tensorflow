@@ -32,6 +32,7 @@ CXX := gcc
 OPTFLAGS := -O0
 CXXFLAGS := --std=c++11 $(OPTFLAGS)
 LDFLAGS := \
+-L$(TFMAKEFILE_DIR)/gen/protobuf/lib \
 -L/usr/local/lib \
 -L$(TFLIBDIR) \
 -Wl,--no-whole-archive
@@ -39,6 +40,7 @@ INCLUDES := \
 -I/usr/local/include \
 -I. \
 -I$(DOWNLOADSDIR) \
+-I$(DOWNLOADSDIR)/protobuf/src \
 -I$(DOWNLOADSDIR)/eigen/ \
 -I$(PROTOGENDIR) \
 -I$(PBTGENDIR)
