@@ -65,6 +65,7 @@ tensorflow/core/kernels/resize_nearest_neighbor_op.cc
 tensorflow/core/kernels/resize_bilinear_op.cc
 tensorflow/core/kernels/reshape_op.cc
 tensorflow/core/kernels/relu_op.cc
+tensorflow/core/kernels/reduction_ops_all.cc
 tensorflow/core/kernels/reduction_ops_sum.cc
 tensorflow/core/kernels/reduction_ops_prod.cc
 tensorflow/core/kernels/reduction_ops_min.cc
