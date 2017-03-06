@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
   //   std::cout << msg[i] << ' ';
 
   int max_setence_len = 100;
-  int batch_size = 64;
+  int batch_size = 1;
   int nTests = batch_size;
   Tensor x(DT_INT32, TensorShape({nTests, max_setence_len}));
   auto dst = x.tensor<int, 2>();
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
   }
   Tensor seqlen(DT_INT32, TensorShape({nTests}));
   auto dst2 = seqlen.flat<int>().data();
-  dst2[0] = max_setence_len;
+  // dst2[0] = max_setence_len;
   // auto dst = seqlen.tensor<int>();
   // for (int i = 0; i < nTests; i++) {
   //     dst(i) = max_setence_len;
