@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
   // when using `bazel run` since the cwd isn't where you call
   // `bazel run` but from inside a temp folder.)
   GraphDef graph_def;
-  status = ReadBinaryProto(Env::Default(), "/home/hbzhou/TF/toy-ws/model/frozen_graph.pb", &graph_def);
+  status = ReadBinaryProto(Env::Default(), "/home/hbzhou/TF/toy-ws/model_embedding/toyws.pb", &graph_def);
   // status = ReadBinaryProto(Env::Default(), "tensorflow/contrib/pi_examples/wordseg/models/frozen_graph.pb", &graph_def);
   if (!status.ok()) {
     cout << status.ToString() << "\n";
@@ -67,11 +67,14 @@ int main(int argc, char* argv[]) {
   int max_setence_len = 100;
   int batch_size = 1;
   int nTests = batch_size;
-  Tensor x(DT_INT32, TensorShape({nTests, max_setence_len}));
-  auto dst = x.tensor<int, 2>();
+  int embedding_size = 200;
+  Tensor x(DT_FLOAT, TensorShape({nTests, max_setence_len, embedding_size}));
+  auto dst = x.tensor<float, 3>();
   for (int i = 0; i < nTests; i++) {
     for (int j = 0; j < max_setence_len; j++){
-      dst(i, j) = j;
+      for (int k = 0; k < embedding_size; k++){
+        dst(i, j, k) = 0.1f;
+      }
     }
   }
   Tensor seqlen(DT_INT32, TensorShape({nTests}));
@@ -86,15 +89,15 @@ int main(int argc, char* argv[]) {
 
   cout << "data is ready" << endl;
   vector<pair<string, Tensor>> inputs = {
-    { "input", x},
-    { "seqlen", seqlen}
+    { "input/data/x", x},
+    { "input/data/seqlen", seqlen}
   };
 
   // The session will initialize the outputs
   vector<Tensor> outputs;
 
   // Run the session, evaluating our "softmax" operation from the graph
-  status = session->Run(inputs, {"preds"}, {}, &outputs);
+  status = session->Run(inputs, {"toyws_output/toyws_output"}, {}, &outputs);
   if (!status.ok()) {
     cout << status.ToString() << "\n";
     return 1;
