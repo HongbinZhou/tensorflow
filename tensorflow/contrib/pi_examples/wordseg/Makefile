@@ -84,6 +84,12 @@ $(OBJDIR)%.o: %.cc
 run: all
 	$(EXECUTABLE_NAME)
 
+massif: all
+	valgrind --tool=massif $(EXECUTABLE_NAME)
+
+callgrind: all
+	valgrind --tool=callgrind $(EXECUTABLE_NAME)
+
 # Gets rid of all generated files.
 clean:
 	rm -rf $(GENDIR)

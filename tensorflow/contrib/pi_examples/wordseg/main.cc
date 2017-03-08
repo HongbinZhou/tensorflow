@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
   // when using `bazel run` since the cwd isn't where you call
   // `bazel run` but from inside a temp folder.)
   GraphDef graph_def;
-  status = ReadBinaryProto(Env::Default(), "/home/hbzhou/TF/toy-ws/model_embedding/toyws.pb", &graph_def);
+  status = ReadBinaryProto(Env::Default(), "/home/hbzhou/E/repo/nncode/tensorflow/model_embedding_blstm/toyws.pb", &graph_def);
   // status = ReadBinaryProto(Env::Default(), "tensorflow/contrib/pi_examples/wordseg/models/frozen_graph.pb", &graph_def);
   if (!status.ok()) {
     cout << status.ToString() << "\n";
@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
   }
   Tensor seqlen(DT_INT32, TensorShape({nTests}));
   auto dst2 = seqlen.flat<int>().data();
-  // dst2[0] = max_setence_len;
+  dst2[0] = max_setence_len;
   // auto dst = seqlen.tensor<int>();
   // for (int i = 0; i < nTests; i++) {
   //     dst(i) = max_setence_len;
