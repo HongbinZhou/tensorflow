@@ -90,6 +90,9 @@ massif: all
 callgrind: all
 	valgrind --tool=callgrind $(EXECUTABLE_NAME)
 
+ls: all
+	ls -alt $(EXECUTABLE_NAME)
+
 # Gets rid of all generated files.
 clean:
 	rm -rf $(GENDIR)

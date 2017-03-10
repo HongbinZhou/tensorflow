@@ -45,7 +45,13 @@ int main(int argc, char* argv[]) {
   // when using `bazel run` since the cwd isn't where you call
   // `bazel run` but from inside a temp folder.)
   GraphDef graph_def;
+
+  // for batch normalization model
+  // status = ReadBinaryProto(Env::Default(), "/home/hbzhou/E/repo/nncode/tensorflow/model_20170309/toyws_opt.pb", &graph_def);
+
+  // for non batch norm
   status = ReadBinaryProto(Env::Default(), "/home/hbzhou/E/repo/nncode/tensorflow/model_embedding_blstm/toyws.pb", &graph_def);
+
   // status = ReadBinaryProto(Env::Default(), "tensorflow/contrib/pi_examples/wordseg/models/frozen_graph.pb", &graph_def);
   if (!status.ok()) {
     cout << status.ToString() << "\n";
