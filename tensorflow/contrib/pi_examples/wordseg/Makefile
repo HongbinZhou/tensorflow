@@ -90,6 +90,9 @@ massif: all
 callgrind: all
 	valgrind --tool=callgrind $(EXECUTABLE_NAME)
 
+cachegrind: all
+	valgrind --tool=cachegrind $(EXECUTABLE_NAME)
+
 ls: all
 	ls -alt $(EXECUTABLE_NAME)
 
