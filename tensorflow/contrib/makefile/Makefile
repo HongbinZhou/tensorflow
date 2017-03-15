@@ -427,6 +427,9 @@ LIB_PATH := $(LIBDIR)$(LIB_NAME)
 # A small example program that shows how to link against the library.
 BENCHMARK_NAME := $(BINDIR)benchmark
 
+# wedseg
+WORDSEG_NAME := $(BINDIR)wordseg
+
 # What sources we want to compile, derived from the main Bazel build using the
 # gen_file_lists.sh script.
 
@@ -490,6 +493,8 @@ BENCHMARK_SRCS := \
 tensorflow/core/util/reporter.cc \
 tensorflow/tools/benchmark/benchmark_model.cc \
 tensorflow/tools/benchmark/benchmark_model_main.cc
+WORDSEG_SRCS := \
+tensorflow/contrib/pi_examples/wordseg/main.cc
 
 # File names of the intermediate files target compilation generates.
 TF_CC_OBJS := $(addprefix $(OBJDIR), $(TF_CC_SRCS:.cc=.o))
@@ -499,11 +504,12 @@ PROTO_CC_SRCS := $(addprefix $(PROTOGENDIR), $(PROTO_SRCS:.proto=.pb.cc))
 PROTO_OBJS := $(addprefix $(OBJDIR), $(PROTO_SRCS:.proto=.pb.o))
 LIB_OBJS := $(PROTO_OBJS) $(TF_CC_OBJS) $(PBT_OBJS)
 BENCHMARK_OBJS := $(addprefix $(OBJDIR), $(BENCHMARK_SRCS:.cc=.o))
+WORDSEG_OBJS := $(addprefix $(OBJDIR), $(WORDSEG_SRCS:.cc=.o))
 
 .PHONY: clean cleantarget
 
 # The target that's compiled if there's no command-line arguments.
-all: $(LIB_PATH) $(BENCHMARK_NAME)
+all: $(LIB_PATH) $(BENCHMARK_NAME) $(WORDSEG_NAME)
 
 # Rules for target compilation.
 
@@ -521,6 +527,12 @@ $(BENCHMARK_NAME): $(BENCHMARK_OBJS) $(LIB_PATH)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) \
 	-o $(BENCHMARK_NAME) $(BENCHMARK_OBJS) \
+	$(LIBFLAGS) $(LIB_PATH) $(LDFLAGS) $(LIBS)
+
+$(WORDSEG_NAME): $(WORDSEG_OBJS) $(LIB_PATH)
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) \
+	-o $(WORDSEG_NAME) $(WORDSEG_OBJS) \
 	$(LIBFLAGS) $(LIB_PATH) $(LDFLAGS) $(LIBS)
 
 # Matches on the normal hand-written TensorFlow C++ source files.
@@ -612,3 +624,18 @@ ifdef SUB_MAKEFILES
   $(warning "include sub makefiles, must not contain white spaces in the path:" $(SUB_MAKEFILES))
   include $(SUB_MAKEFILES)
 endif
+
+run: $(WORDSEG_NAME)
+	$(WORDSEG_NAME)
+
+massif: all
+	valgrind --tool=massif $(WORDSEG_NAME)
+
+callgrind: all
+	valgrind --tool=callgrind $(WORDSEG_NAME)
+
+cachegrind: all
+	valgrind --tool=cachegrind $(WORDSEG_NAME)
+
+ls: all
+	ls -alt $(WORDSEG_NAME)
