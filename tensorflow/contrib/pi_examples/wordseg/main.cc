@@ -31,6 +31,25 @@ using namespace tensorflow;
 int main(int argc, char* argv[]) {
   cout << "hello wordseg!" << endl;
 
+  // command-line flags
+  string graph = "/home/hbzhou/E/repo/nncode/tensorflow/model_embedding_blstm/toyws.pb";
+  std::vector<tensorflow::Flag> flag_list = {
+      Flag("graph", &graph, "graph to be executed"),
+  };
+  string usage = tensorflow::Flags::Usage(argv[0], flag_list);
+  const bool parse_result = tensorflow::Flags::Parse(&argc, argv, flag_list);
+  if (!parse_result) {
+    LOG(ERROR) << "\n" << usage;
+    return -1;
+  }
+
+  // We need to call this to set up global state for TensorFlow.
+  tensorflow::port::InitMain(usage.c_str(), &argc, &argv);
+  if (argc > 1) {
+    LOG(ERROR) << "Unknown argument " << argv[1] << "\n" << usage;
+    return -1;
+  }
+
   // Initialize a tensorflow session
   cout << "start initalize session" << "\n";
   Session* session;
@@ -50,7 +69,8 @@ int main(int argc, char* argv[]) {
   // status = ReadBinaryProto(Env::Default(), "/home/hbzhou/E/repo/nncode/tensorflow/model_20170309/toyws_opt.pb", &graph_def);
 
   // for non batch norm
-  status = ReadBinaryProto(Env::Default(), "/home/hbzhou/E/repo/nncode/tensorflow/model_embedding_blstm/toyws.pb", &graph_def);
+  cout << "load graph: " << graph << endl;
+  status = ReadBinaryProto(Env::Default(), graph, &graph_def);
 
   // status = ReadBinaryProto(Env::Default(), "tensorflow/contrib/pi_examples/wordseg/models/frozen_graph.pb", &graph_def);
   if (!status.ok()) {
