@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
   cout << "hello wordseg!" << endl;
 
   // command-line flags
-  string graph = "/home/hbzhou/E/repo/nncode/tensorflow/model_embedding_blstm/toyws.pb";
+  string graph = "../model_embedding_blstm/toyws.pb";
   std::vector<tensorflow::Flag> flag_list = {
       Flag("graph", &graph, "graph to be executed"),
   };
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
   GraphDef graph_def;
 
   // for batch normalization model
-  // status = ReadBinaryProto(Env::Default(), "/home/hbzhou/E/repo/nncode/tensorflow/model_20170309/toyws_opt.pb", &graph_def);
+  // status = ReadBinaryProto(Env::Default(), "../model_20170309/toyws_opt.pb", &graph_def);
 
   // for non batch norm
   cout << "load graph: " << graph << endl;
