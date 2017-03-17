@@ -5,7 +5,9 @@
 SCRIPT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # The location of the tensorflow/contrib/makefile directory.
-TFMAKEFILE_DIR := $(SCRIPT_DIR)/../../makefile
+TFREPO_DIR := $(SCRIPT_DIR)/../../../.. # default root path for tensorflow repo
+TFREPO_DIR := $(shell [[ -d $(TFREPO_DIR)/tensorflow/contrib/makefile ]] && echo $(TFREPO_DIR) || echo "~/TF/tensorflow")
+TFMAKEFILE_DIR := $(TFREPO_DIR)/tensorflow/contrib/makefile
 
 # Where compiled objects are stored.
 GENDIR := $(SCRIPT_DIR)/gen/
@@ -30,6 +32,7 @@ EXECUTABLE_NAME := $(BINDIR)/wordseg
 # Settings for the target compiler.
 CXX := gcc
 OPTFLAGS := -O0
+# OPTFLAGS := -g
 CXXFLAGS := --std=c++11 $(OPTFLAGS)
 LDFLAGS := \
 -L$(TFMAKEFILE_DIR)/gen/protobuf/lib \
@@ -37,6 +40,7 @@ LDFLAGS := \
 -L$(TFLIBDIR) \
 -Wl,--no-whole-archive
 INCLUDES := \
+-I$(TFREPO_DIR) \
 -I/usr/local/include \
 -I. \
 -I$(DOWNLOADSDIR) \
@@ -58,7 +62,7 @@ LIBS := \
 -lz
 LIBFLAGS :=
 
-EXECUTABLE_SRCS := tensorflow/contrib/pi_examples/wordseg/main.cc
+EXECUTABLE_SRCS := $(SCRIPT_DIR)/main.cc
 
 # File names of the intermediate files target compilation generates.
 EXECUTABLE_OBJS := $(addprefix $(OBJDIR), $(EXECUTABLE_SRCS:.cc=.o))
