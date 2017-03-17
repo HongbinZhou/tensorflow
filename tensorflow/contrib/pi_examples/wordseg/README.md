@@ -50,6 +50,9 @@ application, the input and prediction outputs should be real and correct.
     Note that we need first make sure *libprotobuf.a* can be found under
     *LD_LIBRARY_PATH*.
 
+    To debug or view more detailed info in massif result, we need to build with
+    dbg flavor in Makefile: *OPTFLAGS := -g*
+
     ``` shell
     cd nncode/tensorflow/cpp
     export LD_LIBRARY_PATH=~/TF/tensorflow/tensorflow/contrib/makefile/gen/protobuf/lib
