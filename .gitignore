@@ -14,3 +14,7 @@ node_modules
 __pycache__
 *.swp
 .vscode/
+tensorflow/contrib/makefile/gen-g/
+tensorflow/compiler/aot/tests/out/
+tensorflow/contrib/pi_examples/mnist/MNIST_data/
+tensorflow/contrib/pi_examples/mnist/models/

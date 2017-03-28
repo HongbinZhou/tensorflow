@@ -6,7 +6,7 @@ SCRIPT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # The location of the tensorflow/contrib/makefile directory.
 TFREPO_DIR := $(SCRIPT_DIR)/../../../.. # default root path for tensorflow repo
-TFREPO_DIR := $(shell [[ -d $(TFREPO_DIR)/tensorflow/contrib/makefile ]] && echo $(TFREPO_DIR) || echo "~/TF/tensorflow")
+TFREPO_DIR := $(shell [ -d "$(TFREPO_DIR)/tensorflow/contrib/makefile" ] && echo $(TFREPO_DIR) || echo "$(HOME)/TF/tensorflow")
 TFMAKEFILE_DIR := $(TFREPO_DIR)/tensorflow/contrib/makefile
 
 # Where compiled objects are stored.

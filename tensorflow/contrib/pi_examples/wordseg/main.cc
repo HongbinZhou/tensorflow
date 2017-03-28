@@ -32,9 +32,11 @@ int main(int argc, char* argv[]) {
   cout << "hello wordseg!" << endl;
 
   // command-line flags
+  int max_setence_len = 100;
   string graph = "../model_embedding_blstm/toyws.pb";
   std::vector<tensorflow::Flag> flag_list = {
-      Flag("graph", &graph, "graph to be executed"),
+    Flag("graph", &graph, "graph to be executed"),
+    Flag("max_setence_len", &max_setence_len, "max setence len"),
   };
   string usage = tensorflow::Flags::Usage(argv[0], flag_list);
   const bool parse_result = tensorflow::Flags::Parse(&argc, argv, flag_list);
@@ -90,7 +92,6 @@ int main(int argc, char* argv[]) {
   // for (int i=0; i < msg.size(); ++i)
   //   std::cout << msg[i] << ' ';
 
-  int max_setence_len = 100;
   int batch_size = 1;
   int nTests = batch_size;
   int embedding_size = 200;
